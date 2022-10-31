@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SelectRegistrationActivity">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:contentDescription="TODO"
+        android:src="@drawable/doctor">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/welcom_to_our_application"
+        android:textColor="#000"
+        android:textSize="25sp"
+        android:textStyle="bold">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/title2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Select One"
+        android:textColor="#000"
+        android:textSize="25sp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold">
+
+    </TextView>
+    <Button
+        android:id="@+id/PatientReg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Patient Registration"
+        android:textSize="20sp"
+        android:layout_margin="10dp"
+        android:textAllCaps="false"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:textColor="#fff"
+        android:background="@drawable/button_backround">
+
+    </Button>
+    <Button
+        android:id="@+id/doctorReg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Doctor Registration"
+        android:textSize="20sp"
+        android:layout_margin="10dp"
+        android:textAllCaps="false"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:textColor="#fff"
+        android:background="@drawable/button_backround">
+
+    </Button>
+    <TextView
+        android:id="@+id/back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Already have an account?? Login"
+        android:textAllCaps="false"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:textColor="#000"
+        android:gravity="center"
+        android:textSize="20sp">
+
+    </TextView>
+
+</LinearLayout>

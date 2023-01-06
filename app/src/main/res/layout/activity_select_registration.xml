@@ -1,86 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="#ECFFED"
     tools:context=".SelectRegistrationActivity">
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:contentDescription="TODO"
-        android:src="@drawable/doctor">
-
-    </ImageView>
-
-    <TextView
-        android:id="@+id/title"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/welcom_to_our_application"
-        android:textColor="#000"
-        android:textSize="25sp"
-        android:textStyle="bold">
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    </TextView>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/title2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Select One"
-        android:textColor="#000"
-        android:textSize="25sp"
-        android:layout_marginTop="10dp"
-        android:textStyle="bold">
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="32dp"
+                    android:inputType="textMultiLine"
+                    android:text="welcom"
+                    android:textAlignment="center"
 
-    </TextView>
-    <Button
-        android:id="@+id/PatientReg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Patient Registration"
-        android:textSize="20sp"
-        android:layout_margin="10dp"
-        android:textAllCaps="false"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:textColor="#fff"
-        android:background="@drawable/button_backround">
+                    android:textColor="#828282"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
 
-    </Button>
-    <Button
-        android:id="@+id/doctorReg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Doctor Registration"
-        android:textSize="20sp"
-        android:layout_margin="10dp"
-        android:textAllCaps="false"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:textColor="#fff"
-        android:background="@drawable/button_backround">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
-    </Button>
-    <TextView
-        android:id="@+id/back"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Already have an account?? Login"
-        android:textAllCaps="false"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:textColor="#000"
-        android:gravity="center"
-        android:textSize="20sp">
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Welcom to our Application"
+                    android:textAlignment="center"
+                    android:textColor="#000"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
 
-    </TextView>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-</LinearLayout>
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="373dp"
+                    android:layout_height="218dp"
+                    android:layout_marginTop="56dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/test" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+                <LinearLayout
+                    android:layout_width="366dp"
+                    android:layout_height="66dp"
+                    android:layout_margin="32dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/doctorReg"
+                        style="@android:style/Widget.Button"
+                        android:layout_width="344dp"
+                        android:layout_height="55dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        android:background="@drawable/backround_btn"
+                        android:text="Doctor Registration"
+                        android:textColor="#fff"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="346dp"
+                    android:layout_height="66dp"
+                    android:layout_margin="32dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/PatientReg"
+                        style="@android:style/Widget.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        android:background="@drawable/backround_btn"
+                        android:text="Patient Registration"
+                        android:textColor="#fff"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_margin="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="662dp"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/back"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Already have an account?? Login"
+                    android:textAlignment="center"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+

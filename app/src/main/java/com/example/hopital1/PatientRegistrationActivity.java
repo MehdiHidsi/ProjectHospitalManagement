@@ -1,50 +1,48 @@
 package com.example.hopital1;
 
-import static com.example.hopital1.R.id.regPageQuestion;
+import static android.content.ContentValues.TAG;
+
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.common.api.internal.TaskUtil;
-import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -52,10 +50,11 @@ public class PatientRegistrationActivity extends AppCompatActivity {
 
     private TextView regPageQuestion;
 
-    private TextInputEditText RegistrationFullName,RegistrationIdNumber,RegistrationPhoneNumber,
-            loginEmail,loginPassword;
+    private EditText RegistrationFullName,RegistrationIdNumber,RegistrationPhoneNumber,
+            loginEmail,loginPassword,lastname,date;
     private Button regButton;
     private CircleImageView profileImage;
+    DatePickerDialog.OnDateSetListener setListener;
 
     private Uri resultUri;
     private FirebaseUser mUser;
@@ -65,13 +64,43 @@ public class PatientRegistrationActivity extends AppCompatActivity {
     private String userID;
     String test,test1;
     private DatabaseReference databaseReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setTitle("patient Registration");
         setContentView(R.layout.activity_patient_registration);
+        date=findViewById(R.id.Registrationdate);
+        Calendar calendar=Calendar.getInstance();
+        final int year=calendar.get(Calendar.YEAR);
+        final int month=calendar.get(Calendar.MONTH);
+        final int day=calendar.get(Calendar.DAY_OF_MONTH);
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog=new DatePickerDialog(
+                        PatientRegistrationActivity.this, android.R.style.Theme_Holo_Dialog_MinWidth
+                ,setListener,year,month,day);
+                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                datePickerDialog.show();
+
+
+            }
+        });
+        setListener=new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int dayofMonth) {
+                month=month+1;
+                String tes=day+"/"+month+"/"+year;
+                date.setText(tes);
+
+
+            }
+        };
 
         regPageQuestion=findViewById(R.id.regPageQuestion);
-        databaseReference= FirebaseDatabase.getInstance().getReference().child("users");
+        //databaseReference= FirebaseDatabase.getInstance().getReference().child("users");
+        databaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://hospital-system-e9e0f-default-rtdb.firebaseio.com/");
         regPageQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,6 +109,7 @@ public class PatientRegistrationActivity extends AppCompatActivity {
             }
         });
         RegistrationFullName=findViewById(R.id.RegistrationFullName);
+        lastname=findViewById(R.id.Registrationlastname);
         RegistrationIdNumber=findViewById(R.id.RegistrationIdNumber);
         RegistrationPhoneNumber=findViewById(R.id.RegistrationPhoneNumber);
         loginEmail=findViewById(R.id.loginEmail);
@@ -106,8 +136,10 @@ public class PatientRegistrationActivity extends AppCompatActivity {
                 final String email=loginEmail.getText().toString().trim();
                 final String password=loginPassword.getText().toString().trim();
                 final String fullName=RegistrationFullName.getText().toString().trim();
+                final String LastName=lastname.getText().toString().trim();
                 final String idNumber=RegistrationIdNumber.getText().toString().trim();
                 final String phoneNumber=RegistrationPhoneNumber.getText().toString().trim();
+                final String datee=date.getText().toString().trim();
 
                 if(TextUtils.isEmpty(email)){
                     loginEmail.setError("Email is required");
@@ -118,7 +150,11 @@ public class PatientRegistrationActivity extends AppCompatActivity {
                     return;
                 }
                 if(TextUtils.isEmpty(fullName)){
-                    RegistrationFullName.setError("Full Name is required");
+                    RegistrationFullName.setError("First Name is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(LastName)){
+                    RegistrationFullName.setError("Last Name is required");
                     return;
                 }
                 if(TextUtils.isEmpty(idNumber)){
@@ -127,6 +163,10 @@ public class PatientRegistrationActivity extends AppCompatActivity {
                 }
                 if(TextUtils.isEmpty(phoneNumber)){
                     RegistrationPhoneNumber.setError("Phone Number is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(datee)){
+                    RegistrationPhoneNumber.setError("Date is required");
                     return;
                 }
                 if(resultUri==null){
@@ -138,25 +178,29 @@ public class PatientRegistrationActivity extends AppCompatActivity {
                     loader.setCanceledOnTouchOutside(false);
                     loader.show();
 
-                    mAuth.createUserWithEmailAndPassword(email,idNumber).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@Nullable Task<AuthResult> task) {
                             if(!task.isSuccessful()){
                                 String error=task.getException().toString();
                                 Toast.makeText(PatientRegistrationActivity.this,"Error occurred"+error,Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "onComplete: "+error);
                                 Toast.makeText(PatientRegistrationActivity.this,"This Email Or IdNumber is Already registered",Toast.LENGTH_LONG).show();
                                 finish();
                             }
                             else{
                                 String currentUserId=mAuth.getCurrentUser().getUid();
-                                userdatabasaRef= FirebaseDatabase.getInstance().getReference().child("users").child(currentUserId);
+                                userdatabasaRef= FirebaseDatabase.getInstance().getReferenceFromUrl("https://hospital-system-e9e0f-default-rtdb.firebaseio.com/").child("users").child(currentUserId);
                                     HashMap userInfo=new HashMap();
-                                    userInfo.put("name",fullName);
-                                    userInfo.put("email",email);
-                                    userInfo.put("idNumber",idNumber);
-                                    userInfo.put("phoneNumber",phoneNumber);
-                                    userInfo.put("Password",password);
-                                    userInfo.put("type","patient");
+                                userInfo.put("name",fullName);
+                                userInfo.put("name2",LastName);
+                                userInfo.put("email",email);
+                                userInfo.put("idNumber",idNumber);
+                                userInfo.put("phoneNumber",phoneNumber);
+                                userInfo.put("Password",password);
+                                userInfo.put("Date",datee);
+                                userInfo.put("type","patient");
+                                userInfo.put("groupName","Medical");
                                 userdatabasaRef.updateChildren(userInfo).addOnCompleteListener(new OnCompleteListener() {
                                     @Override
                                     public void onComplete(@NonNull Task task) {
@@ -173,8 +217,9 @@ public class PatientRegistrationActivity extends AppCompatActivity {
 
                                 if(resultUri !=null){
                                     final StorageReference filepath=
-                                            FirebaseStorage.getInstance().getReference().child("Profile pictures").child(currentUserId);
+                                            FirebaseStorage.getInstance().getReferenceFromUrl("gs://hospital-system-e9e0f.appspot.com").child("Profile pictures").child(idNumber);
                                     Bitmap bitmap=null;
+                                    //filepath.putFile(resultUri);
                                     try {
                                         bitmap= MediaStore.Images.Media.getBitmap(getApplication().getContentResolver(),resultUri);
                                     }catch (IOException e){
@@ -218,8 +263,6 @@ public class PatientRegistrationActivity extends AppCompatActivity {
                                                             }
                                                         });
                                                         finish();
-
-
                                                     }
                                                 });
                                             }

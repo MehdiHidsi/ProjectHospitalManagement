@@ -1,9 +1,6 @@
 package com.example.hopital1;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,15 +11,19 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -41,8 +42,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DoctorRegistrationActivity extends AppCompatActivity {
 
     private TextView regPageQuestion;
-    private TextInputEditText RegistrationFullName,RegistrationIdNumber,RegistrationPhoneNumber,
-            loginEmail,loginPassword;
+    private EditText RegistrationFullName,RegistrationIdNumber,RegistrationPhoneNumber,
+            loginEmail,loginPassword,lastname;
     private Button regButton;
     private CircleImageView profileImage;
     private Uri resultUri;
@@ -51,9 +52,11 @@ public class DoctorRegistrationActivity extends AppCompatActivity {
     private ProgressDialog loader;
     private Spinner availabilitySpinner,departmentSpinner,specializationSpinner;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setTitle("Doctor Registration");
         setContentView(R.layout.activity_doctor_registration);
 
         regPageQuestion = findViewById(R.id.regPageQuestion);
@@ -65,6 +68,7 @@ public class DoctorRegistrationActivity extends AppCompatActivity {
             }
         });
         RegistrationFullName = findViewById(R.id.RegistrationFullName);
+        lastname = findViewById(R.id.Registrationlastname);
         RegistrationIdNumber = findViewById(R.id.RegistrationIdNumber);
         RegistrationPhoneNumber = findViewById(R.id.RegistrationPhoneNumber);
         loginEmail = findViewById(R.id.loginEmail);
@@ -93,6 +97,7 @@ public class DoctorRegistrationActivity extends AppCompatActivity {
                 final String email=loginEmail.getText().toString().trim();
                 final String password=loginPassword.getText().toString().trim();
                 final String fullName=RegistrationFullName.getText().toString().trim();
+                final String Lastname=lastname.getText().toString().trim();
                 final String idNumber=RegistrationIdNumber.getText().toString().trim();
                 final String phoneNumber=RegistrationPhoneNumber.getText().toString().trim();
                 final String availability=availabilitySpinner.getSelectedItem().toString().trim();
@@ -108,7 +113,11 @@ public class DoctorRegistrationActivity extends AppCompatActivity {
                     return;
                 }
                 if(TextUtils.isEmpty(fullName)){
-                    RegistrationFullName.setError("Full Name is required");
+                    RegistrationFullName.setError("First Name is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(Lastname)){
+                    RegistrationFullName.setError("Last Name is required");
                     return;
                 }
                 if(TextUtils.isEmpty(idNumber)){
@@ -140,7 +149,7 @@ public class DoctorRegistrationActivity extends AppCompatActivity {
                     loader.setCanceledOnTouchOutside(false);
                     loader.show();
 
-                    mAuth.createUserWithEmailAndPassword(email,idNumber).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@Nullable Task<AuthResult> task) {
                             if(!task.isSuccessful()){
@@ -153,7 +162,8 @@ public class DoctorRegistrationActivity extends AppCompatActivity {
                                 String currentUserId=mAuth.getCurrentUser().getUid();
                                 userdatabasaRef= FirebaseDatabase.getInstance().getReference().child("users").child(currentUserId);
                                 HashMap userInfo=new HashMap();
-                                userInfo.put("name",fullName);
+                                userInfo.put("First name",fullName);
+                                userInfo.put("Last name",Lastname);
                                 userInfo.put("email",email);
                                 userInfo.put("Password",password);
                                 userInfo.put("idNumber",idNumber);

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".add_mesg">
+
+    <include
+        android:id="@+id/chat_toolbar"
+        layout="@layout/app_bar_layout"/>
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Patient Chat"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="#fff"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewgroup"
+
+        android:layout_below="@id/chat_toolbar"
+        android:layout_above="@id/chat_linear_layout"
+        android:layout_marginBottom="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/chat_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/background_light"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true">
+
+        <ImageButton
+            android:id="@+id/send_files_btn"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:backgroundTint="@android:color/white"
+            android:src="@drawable/send_files"
+            tools:ignore="SpeakableTextPresentCheck">
+
+        </ImageButton>
+        <EditText
+            android:id="@+id/add_message"
+            android:layout_height="wrap_content"
+            android:hint="Type a message"
+            android:layout_width="match_parent"
+            android:layout_toRightOf="@id/send_files_btn"
+            android:layout_toLeftOf="@id/send_msg"
+            android:padding="20dp">
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/send_msg"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:backgroundTint="@android:color/white"
+            android:src="@drawable/send_message"
+            tools:ignore="SpeakableTextPresentCheck">
+
+        </ImageButton>
+
+    </RelativeLayout>
+
+</RelativeLayout>

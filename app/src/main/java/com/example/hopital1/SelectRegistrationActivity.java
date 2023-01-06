@@ -1,12 +1,12 @@
 package com.example.hopital1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SelectRegistrationActivity extends AppCompatActivity {
     private TextView back;
@@ -15,6 +15,7 @@ public class SelectRegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setTitle("select Registration");
         setContentView(R.layout.activity_select_registration);
 
         back=findViewById(R.id.back);
